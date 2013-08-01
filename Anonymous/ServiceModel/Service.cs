@@ -121,7 +121,12 @@ namespace Anonymous.ServiceModel
 
         public sealed override string ToString()
         {
-            return stringCache ?? (stringCache = IsAtomic ? Delegate.Data().ToString() : string.Format("({0})", string.Join(",", GetDelegates().Select(DelegateData.Data).Select(x => x.ToString()).OrderBy(x => x))));
+            return stringCache ?? (stringCache = GetStringRepresentation());
+        }
+        
+        protected internal virtual string GetStringRepresentation()
+        {
+            return IsAtomic ? Delegate.Data().ToString() : string.Format("({0})", string.Join(",", GetDelegates().Select(DelegateData.Data).Select(x => x.ToString()).OrderBy(x => x)));
         }
 
         public static bool operator ==(Service service, object obj)

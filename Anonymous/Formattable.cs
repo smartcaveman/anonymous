@@ -29,5 +29,10 @@ namespace Anonymous
         {
             return Delegate(format, formatProvider);
         }
+
+        protected internal override string GetStringRepresentation()
+        {
+            return this.ToString(null, null);
+        }
     }
 }

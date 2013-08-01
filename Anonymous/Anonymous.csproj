@@ -75,6 +75,7 @@
     <Compile Include="Comparable`1[T].cs" />
     <Compile Include="Comparer.cs" />
     <Compile Include="Comparer`1[T].cs" />
+    <Compile Include="Inline.cs" />
     <Compile Include="ServiceModel\BipartiteService`2[D1,D2].cs" />
     <Compile Include="ServiceModel\Service`1[D].cs" />
     <Compile Include="ServiceModel\TripartiteService`3[D1,D2,D3].cs" />

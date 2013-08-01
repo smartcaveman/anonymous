@@ -5,7 +5,7 @@ namespace Anonymous
 {
     public class Comparable<T> : AtomicService<Func<T, int>>, IComparable<T>
     {
-        protected Comparable(Func<T, int> compareTo)
+        public Comparable(Func<T, int> compareTo)
             : base(compareTo)
         {
         }

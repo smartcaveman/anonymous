@@ -5,7 +5,7 @@ namespace Anonymous
 {
     public class FormatProvider : AtomicService<Func<Type, object>>, IFormatProvider
     {
-        protected FormatProvider(Func<Type, object> getFormat)
+        public FormatProvider(Func<Type, object> getFormat)
             : base(getFormat)
         {
         }

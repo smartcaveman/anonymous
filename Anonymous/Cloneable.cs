@@ -5,7 +5,7 @@ namespace Anonymous
 {
     public class Cloneable : AtomicService<Func<object>>, ICloneable
     {
-        protected Cloneable(Func<object> clone)
+        public Cloneable(Func<object> clone)
             : base(clone)
         {
         }
