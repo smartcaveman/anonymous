@@ -72,35 +72,35 @@ namespace Anonymous.ServiceModel
         public static bool AreServicesEqual(Service a, Service b)
         {
             if (ReferenceEquals(a, b))
-            { 
+            {
                 return true;
             }
             if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
-            { 
+            {
                 return false;
-            } 
+            }
             if (a.IsComposite)
-            { 
+            {
                 if (!b.IsComposite)
-                { 
+                {
                     var bDelData = b.Delegate.Data();
-                    bool b_in_a = a.GetDelegates().Any(bDelData.Equals); 
+                    bool b_in_a = a.GetDelegates().Any(bDelData.Equals);
                     return b_in_a;
-                } 
-                var aData = CanonicalData(a); 
-                var bData = CanonicalData(b); 
+                }
+                var aData = CanonicalData(a);
+                var bData = CanonicalData(b);
                 if (aData.Count == bData.Count)
                 {
                     return aData.SequenceEqual(bData);
                 }
-                return false; 
+                return false;
             }
             if (b.IsComposite)
             {
                 var aDelData = a.Delegate.Data();
-                bool a_in_b = b.GetDelegates().Any(aDelData.Equals); 
+                bool a_in_b = b.GetDelegates().Any(aDelData.Equals);
                 return a_in_b;
-            } 
+            }
             return a.Delegate.Data().Equals(b.Delegate);
         }
 
@@ -123,7 +123,7 @@ namespace Anonymous.ServiceModel
         {
             return stringCache ?? (stringCache = GetStringRepresentation());
         }
-        
+
         protected internal virtual string GetStringRepresentation()
         {
             return IsAtomic ? Delegate.Data().ToString() : string.Format("({0})", string.Join(",", GetDelegates().Select(DelegateData.Data).Select(x => x.ToString()).OrderBy(x => x)));

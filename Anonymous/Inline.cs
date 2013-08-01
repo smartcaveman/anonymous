@@ -26,6 +26,12 @@ namespace Anonymous
             return new Comparable<T>(compareTo);
         }
 
+        public static IComparable<T> Comparable<T>(T value, IComparer<T> comparer = default(IComparer<T>))
+        {
+            comparer = comparer ?? System.Collections.Generic.Comparer<T>.Default;
+            return new Comparable<T>(comparand => comparer.Compare(value, comparand));
+        } 
+
         public static IComparer Comparer(Comparison<object> compare)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(compare, null));
@@ -43,11 +49,13 @@ namespace Anonymous
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(format, null));
             return new CustomFormatter(format);
         }
+
         public static ICustomFormatter CustomFormatter(Func<string, object, string> format)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(format, null));
             return new CustomFormatter(format);
         }
+
         public static ICustomFormatter CustomFormatter(Func<string, object, IFormatProvider, string> format)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(format, null));
@@ -60,7 +68,6 @@ namespace Anonymous
             return new Disposable(dispose);
         }
 
-
         public static IEnumerable Enumerable(Func<IEnumerator> getEnumerator)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(getEnumerator, null));
@@ -72,6 +79,7 @@ namespace Anonymous
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(getEnumerator, null));
             return new Enumerable<T>(getEnumerator);
         }
+
         public static IEnumerator Enumerator(Func<bool> moveNext, Func<object> current, Action reset)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(moveNext, null));
@@ -93,7 +101,7 @@ namespace Anonymous
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(equals, null));
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(getHashCode, null));
-            return new EqualityComparer(equals,getHashCode);
+            return new EqualityComparer(equals, getHashCode);
         }
 
         public static IEqualityComparer<T> EqualityComparer<T>(Func<T, T, bool> equals,
@@ -110,7 +118,13 @@ namespace Anonymous
             return new Equatable<T>(equals);
         }
 
-        public static IFormatProvider FormatProvider(Func<Type,object> getFormat)
+        public static IEquatable<T> Equatable<T>(T value, IEqualityComparer<T> equalityComparer = default(IEqualityComparer<T>))
+        {
+            equalityComparer = equalityComparer ?? System.Collections.Generic.EqualityComparer<T>.Default;
+            return new Equatable<T>(candidate => equalityComparer.Equals(value, candidate));
+        } 
+
+        public static IFormatProvider FormatProvider(Func<Type, object> getFormat)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(getFormat, null));
             return new FormatProvider(getFormat);
@@ -121,16 +135,19 @@ namespace Anonymous
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(toString, null));
             return new Formattable(toString);
         }
+
         public static IFormattable Formattable(Func<string, string> toString)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(toString, null));
             return new Formattable(toString);
         }
+
         public static IFormattable Formattable(Func<IFormatProvider, string> toString)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(toString, null));
             return new Formattable(toString);
         }
+
         public static IFormattable Formattable(Func<string> toString)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(toString, null));
@@ -142,22 +159,22 @@ namespace Anonymous
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(getEnumerator, null));
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(key, null));
-            return new Grouping<TKey, TElement>(getEnumerator,key);
+            return new Grouping<TKey, TElement>(getEnumerator, key);
         }
 
         public static IObservable<T> Observable<T>(Func<IObserver<T>, IDisposable> subscribe)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(subscribe, null));
             return new Observable<T>(subscribe);
-        } 
+        }
 
         public static IObserver<T> Observer<T>(Action<T> onNext, Action<Exception> onError, Action onCompleted)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(onNext, null));
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(onError, null));
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(onCompleted, null));
-            return new Observer<T>(onNext,onError,onCompleted);
-        } 
+            return new Observer<T>(onNext, onError, onCompleted);
+        }
 
         public static IServiceProvider ServiceProvider(Func<Type, object> getService)
         {
@@ -167,9 +184,10 @@ namespace Anonymous
 
         public static IStructuralComparable StructuralComparable(Func<object, IComparer, int> compareTo)
         {
-            Contract.Requires<ArgumentNullException>(!ReferenceEquals(compareTo, null)); 
+            Contract.Requires<ArgumentNullException>(!ReferenceEquals(compareTo, null));
             return new StructuralComparable(compareTo);
         }
+
         public static IStructuralEquatable StructuralEquatable(Func<object, IEqualityComparer, bool> equals,
                                                                Func<IEqualityComparer, int> getHashCode)
         {
