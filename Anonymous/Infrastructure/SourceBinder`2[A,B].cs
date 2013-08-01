@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 
 namespace Anonymous.Infrastructure
 {
-    internal class SourceBinder<A,B> : IEquatable<SourceBinder<A, B>>
+    internal class SourceBinder<A, B> : IEquatable<SourceBinder<A, B>>
     {
         public bool Equals(SourceBinder<A, B> other)
         {
@@ -15,8 +15,8 @@ namespace Anonymous.Infrastructure
         public override int GetHashCode()
         {
             unchecked
-            { 
-               return (Source.GetHashCode() * 397) ^ Map.GetHashCode(); 
+            {
+                return (Source.GetHashCode() * 397) ^ Map.GetHashCode();
             }
         }
 
@@ -32,27 +32,31 @@ namespace Anonymous.Infrastructure
 
         private readonly Func<A> source;
         private readonly Func<A, B> map;
-        private Func<B> target; 
+        private Func<B> target;
 
         public SourceBinder(Func<A> source, Func<A, B> map)
         {
-            Contract.Requires<ArgumentNullException>(!ReferenceEquals(source,null));
-            Contract.Requires<ArgumentNullException>(!ReferenceEquals(map,null));
+            Contract.Requires<ArgumentNullException>(!ReferenceEquals(source, null));
+            Contract.Requires<ArgumentNullException>(!ReferenceEquals(map, null));
             this.source = source;
             this.map = map;
         }
+
         public B Bind()
-        { 
+        {
             return Map(Source());
         }
+
         public Func<A> Source
         {
             get { return source; }
-        } 
-        public Func<A,B> Map
+        }
+
+        public Func<A, B> Map
         {
             get { return this.map; }
         }
+
         public Func<B> Target
         {
             get { return target ?? (target = Bind); }
@@ -62,9 +66,10 @@ namespace Anonymous.Infrastructure
         {
             return Equals(other: obj as SourceBinder<A, B>);
         }
+
         public override string ToString()
         {
-            return new {Source, Map}.ToString();
+            return new { Source, Map }.ToString();
         }
     }
 }

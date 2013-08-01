@@ -6,12 +6,13 @@ using Anonymous.ServiceModel;
 
 namespace Anonymous
 {
-    public class Grouping<TKey,TElement> : BipartiteService<Func<IEnumerator<TElement>>,Func<TKey>>, IGrouping<TKey,TElement>
+    public class Grouping<TKey, TElement> : BipartiteService<Func<IEnumerator<TElement>>, Func<TKey>>, IGrouping<TKey, TElement>
     {
         public Grouping(Func<IEnumerator<TElement>> getEnumerator, Func<TKey> key)
             : base(getEnumerator, key)
-        { 
-        } 
+        {
+        }
+
         public IEnumerator<TElement> GetEnumerator()
         {
             return this.First.Delegate.Invoke();
@@ -26,6 +27,5 @@ namespace Anonymous
         {
             get { return Second.Delegate.Invoke(); }
         }
-
     }
 }

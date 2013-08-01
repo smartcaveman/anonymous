@@ -5,13 +5,12 @@ using Anonymous.ServiceModel;
 
 namespace Anonymous
 {
-    public class Enumerator<T> : TripartiteService<Func<bool>,Func<T>,Action>, IEnumerator<T>
+    public class Enumerator<T> : TripartiteService<Func<bool>, Func<T>, Action>, IEnumerator<T>
     {
-        public Enumerator(Func<bool> moveNext, Func<T> current, Action reset) 
+        public Enumerator(Func<bool> moveNext, Func<T> current, Action reset)
             : base(moveNext, current, reset)
         {
         }
-
 
         public bool MoveNext()
         {
@@ -29,9 +28,10 @@ namespace Anonymous
         }
 
         public void Reset()
-        { 
+        {
             Third.Delegate();
         }
+
         public void Dispose()
         {
             Third.Delegate();

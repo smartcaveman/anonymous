@@ -9,9 +9,9 @@ namespace Anonymous.ServiceModel
     public abstract class Service : IEquatable<Service>, IEquatable<Delegate>
     {
         private readonly Lazy<Service> component;
-        private readonly Delegate delegateInstance; 
+        private readonly Delegate delegateInstance;
         private string stringCache;
- 
+
         protected internal Service(Func<Service> component)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(component, null));
@@ -24,9 +24,6 @@ namespace Anonymous.ServiceModel
             this.delegateInstance = delegateInstance;
         }
 
-
-
-
         private Service Component
         {
             get { return this.component == null ? this : this.component.Value; }
@@ -36,7 +33,7 @@ namespace Anonymous.ServiceModel
         {
             get { return !IsComposite; }
         }
-        
+
         protected virtual bool IsComposite
         {
             get { return false; }
@@ -54,9 +51,11 @@ namespace Anonymous.ServiceModel
 
         public bool Equals(Service other)
         {
-            return AreServicesEqual(this, other); 
+            return AreServicesEqual(this, other);
         }
-        private static readonly List<Tuple<int,object,int>> EmptyData = new List<Tuple<int, object, int>>(); 
+
+        private static readonly List<Tuple<int, object, int>> EmptyData = new List<Tuple<int, object, int>>();
+
         private static List<Tuple<int, object, int>> CanonicalData(Service service)
         {
             if (ReferenceEquals(service, null)) return EmptyData;
@@ -64,11 +63,12 @@ namespace Anonymous.ServiceModel
                 .GetDelegates()
                 .GroupBy(d => Tuple.Create(d.Method.MetadataToken, d.Target))
                 .Select(g => Tuple.Create(g.Key.Item1, g.Key.Item2, g.Count()))
-                .OrderBy(t=>t.Item1)
-                .ThenBy(t=>(t.Item2??string.Empty).ToString())
-                .ThenBy(t=>t.Item3)
+                .OrderBy(t => t.Item1)
+                .ThenBy(t => (t.Item2 ?? string.Empty).ToString())
+                .ThenBy(t => t.Item3)
                 .ToList();
         }
+
         public static bool AreServicesEqual(Service a, Service b)
         {
             if (ReferenceEquals(a, b))
@@ -92,7 +92,6 @@ namespace Anonymous.ServiceModel
                 //Console.WriteLine("a is composite");
                 if (!b.IsComposite)
                 {
-
                     //Console.WriteLine("b is atomic");
                     var bDelData = b.Delegate.Data();
                     bool b_in_a = a.GetDelegates().Any(bDelData.Equals);
@@ -122,7 +121,7 @@ namespace Anonymous.ServiceModel
                         while (aIt.MoveNext() && bIt.MoveNext())
                         {
                             i++;
-                            
+
                             //Console.WriteLine("#{0} is {1}",i,(aIt.Current??new object()).Equals(bIt.Current??new object()) ? "equal" : "different");
                             if (!aIt.Current.Equals(bIt.Current))
                             {
@@ -133,10 +132,10 @@ namespace Anonymous.ServiceModel
 
                         return false;
                     }
-                } 
-                return false; 
+                }
+                return false;
 
-                return aData.Count == bData.Count && aData.SequenceEqual(bData); 
+                return aData.Count == bData.Count && aData.SequenceEqual(bData);
             }
             if (b.IsComposite)
             {
@@ -148,13 +147,17 @@ namespace Anonymous.ServiceModel
             //Console.WriteLine("both a and b are atomic");
             return a.Delegate.Data().Equals(b.Delegate);
         }
-         
-        public sealed override int GetHashCode() { return InterceptHashCode(GetDelegates().Select(DelegateData.Data).Sum(x=>x.GetHashCode())); }
-        
+
+        public sealed override int GetHashCode()
+        {
+            return InterceptHashCode(GetDelegates().Select(DelegateData.Data).Sum(x => x.GetHashCode()));
+        }
+
         protected internal virtual IEnumerable<Delegate> GetDelegates()
         {
             yield return Delegate;
         }
+
         protected internal virtual int InterceptHashCode(int defaultHashCode)
         {
             return defaultHashCode;
@@ -162,9 +165,8 @@ namespace Anonymous.ServiceModel
 
         public sealed override string ToString()
         {
-            return stringCache ?? (stringCache = IsAtomic ? Delegate.Data().ToString() : "(" + string.Join(",",GetDelegates().Select(DelegateData.Data).Select(x=>x.ToString()).OrderBy(x=>x)) + ")" );
+            return stringCache ?? (stringCache = IsAtomic ? Delegate.Data().ToString() : "(" + string.Join(",", GetDelegates().Select(DelegateData.Data).Select(x => x.ToString()).OrderBy(x => x)) + ")");
         }
-         
 
         public static bool operator ==(Service service, object obj)
         {
@@ -175,6 +177,7 @@ namespace Anonymous.ServiceModel
         {
             return !(service == obj);
         }
+
         public static bool operator ==(object obj, Service service)
         {
             return service == obj;
@@ -196,21 +199,23 @@ namespace Anonymous.ServiceModel
         }
 
         #region a Service equals a Delegate when the Service contains the Delegate's data
+
         public bool Equals(Delegate other)
         {
             if (other == null) return false;
             var otherData = other.Data();
             if (this.IsAtomic)
             {
-               // Console.WriteLine("atomic");
+                // Console.WriteLine("atomic");
                 var xData = Delegate.Data();
-                //Console.WriteLine("x-data: {0}",xData); 
+                //Console.WriteLine("x-data: {0}",xData);
                 //Console.WriteLine("y-data: {0}",otherData);
                 //Console.WriteLine(xData.Equals(other));
                 return xData.Equals(other);
             }
             return GetDelegates().Any(otherData.Equals);
         }
+
         public static bool operator ==(Service service, Delegate d)
         {
             return ReferenceEquals(service, null) ? ReferenceEquals(d, null) : service.Equals(d);
@@ -220,6 +225,7 @@ namespace Anonymous.ServiceModel
         {
             return !(service == d);
         }
+
         public static bool operator ==(Delegate d, Service service)
         {
             return service == d;
@@ -229,6 +235,7 @@ namespace Anonymous.ServiceModel
         {
             return !(d == service);
         }
-        #endregion
+
+        #endregion a Service equals a Delegate when the Service contains the Delegate's data
     }
 }

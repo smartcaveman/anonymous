@@ -4,12 +4,12 @@ using Anonymous.ServiceModel;
 
 namespace Anonymous
 {
-    public class StructuralComparable : AtomicService<Func<object,IComparer,int>>, IStructuralComparable 
+    public class StructuralComparable : AtomicService<Func<object, IComparer, int>>, IStructuralComparable
     {
         public StructuralComparable(AtomicService<Func<object, IComparer, int>> compareTo)
             : base(compareTo)
         {
-        } 
+        }
 
         public int CompareTo(object other, IComparer comparer)
         {

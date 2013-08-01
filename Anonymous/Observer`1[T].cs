@@ -3,12 +3,12 @@ using Anonymous.ServiceModel;
 
 namespace Anonymous
 {
-    public class Observer<T> : TripartiteService<Action<T>,Action<Exception>,Action>, IObserver<T>
+    public class Observer<T> : TripartiteService<Action<T>, Action<Exception>, Action>, IObserver<T>
     {
         public Observer(Action<T> next, Action<Exception> error, Action completed)
             : base(next, error, completed)
         {
-        } 
+        }
 
         public void OnNext(T value)
         {

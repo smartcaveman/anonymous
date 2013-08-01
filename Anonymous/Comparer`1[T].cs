@@ -6,9 +6,9 @@ namespace Anonymous
 {
     public class Comparer<T> : AtomicService<Comparison<T>>, IComparer<T>
     {
-        public Comparer(Comparison<T> comparison)
-            : base(comparison)
-        { 
+        public Comparer(Comparison<T> compare)
+            : base(compare)
+        {
         }
 
         public int Compare(T x, T y)
@@ -25,13 +25,12 @@ namespace Anonymous
         {
             return comparison == null
                        ? null
-                       : new Comparer<T>(comparison.Invoke); 
+                       : new Comparer<T>(comparison.Invoke);
         }
-        
-        public static implicit operator Func<T,T,int>(Comparer<T> comparer)
-        { 
+
+        public static implicit operator Func<T, T, int>(Comparer<T> comparer)
+        {
             return ReferenceEquals(comparer, null) ? default(Func<T, T, int>) : comparer.Compare;
         }
-         
     }
 }

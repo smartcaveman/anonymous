@@ -5,7 +5,8 @@ namespace Anonymous
 {
     public class ServiceProvider : AtomicService<Func<Type, object>>, IServiceProvider
     {
-        protected ServiceProvider(Func<Type, object> component) : base(component)
+        protected ServiceProvider(Func<Type, object> getService)
+            : base(getService)
         {
         }
 

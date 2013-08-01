@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 
 namespace Anonymous.ServiceModel
 {
-    public abstract class Service<D> : Service 
+    public abstract class Service<D> : Service
         where D : class
     {
         static Service()
@@ -20,14 +20,18 @@ namespace Anonymous.ServiceModel
         protected internal Service(Service<D> component)
             : base(() => component)
         {
-        } 
-        protected internal Service(Func<Service<D>> component) : base(component)
+        }
+
+        protected internal Service(Func<Service<D>> component)
+            : base(component)
         {
-        } 
+        }
+
         protected internal Service(D delegateInstance)
             : base(delegateInstance as Delegate)
         {
         }
+
         public new D Delegate
         {
             get

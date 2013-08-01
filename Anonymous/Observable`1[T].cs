@@ -11,6 +11,6 @@ namespace Anonymous
         public IDisposable Subscribe(IObserver<T> observer)
         {
             return Delegate.Invoke(observer);
-        } 
+        }
     }
 }
