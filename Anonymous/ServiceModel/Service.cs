@@ -72,79 +72,35 @@ namespace Anonymous.ServiceModel
         public static bool AreServicesEqual(Service a, Service b)
         {
             if (ReferenceEquals(a, b))
-            {
-                //Console.WriteLine("eq refs");
+            { 
                 return true;
             }
             if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
-            {
-                //Console.WriteLine("Nullness before start");
+            { 
                 return false;
-            }
-
-            //Console.WriteLine("evaluate service equality");
-            //Console.WriteLine("a:");
-            //Console.WriteLine(a);
-            //Console.WriteLine("b:");
-            //Console.WriteLine(b);
+            } 
             if (a.IsComposite)
-            {
-                //Console.WriteLine("a is composite");
+            { 
                 if (!b.IsComposite)
-                {
-                    //Console.WriteLine("b is atomic");
+                { 
                     var bDelData = b.Delegate.Data();
-                    bool b_in_a = a.GetDelegates().Any(bDelData.Equals);
-                    //Console.WriteLine(b_in_a ? "a contains b, so they are interpreted equal by degeneration" : "b is not in a");
+                    bool b_in_a = a.GetDelegates().Any(bDelData.Equals); 
                     return b_in_a;
-                }
-                //Console.WriteLine("b is composite");
-                var aData = CanonicalData(a);
-                //Console.WriteLine("a data:" + string.Join("|", aData.Select(x => x.ToString())));
-                var bData = CanonicalData(b);
-                //Console.WriteLine("b data:" + string.Join("|", aData.Select(x => x.ToString())));
-                //Console.WriteLine(new{aData,bData});
+                } 
+                var aData = CanonicalData(a); 
+                var bData = CanonicalData(b); 
                 if (aData.Count == bData.Count)
                 {
-                    //Console.WriteLine("count is equal");
-                    if (aData.SequenceEqual(bData))
-                    {
-                        //Console.WriteLine("Sequence Equal - they are equal composites");
-                        return true;
-                    }
-                    else
-                    {
-                        //Console.WriteLine("sequence is not equal");
-                        var aIt = aData.GetEnumerator();
-                        var bIt = bData.GetEnumerator();
-                        int i = 0;
-                        while (aIt.MoveNext() && bIt.MoveNext())
-                        {
-                            i++;
-
-                            //Console.WriteLine("#{0} is {1}",i,(aIt.Current??new object()).Equals(bIt.Current??new object()) ? "equal" : "different");
-                            if (!aIt.Current.Equals(bIt.Current))
-                            {
-                                //Console.WriteLine("a.current = " + aIt.Current);
-                                //Console.WriteLine("b.current = " + bIt.Current);
-                            }
-                        }
-
-                        return false;
-                    }
+                    return aData.SequenceEqual(bData);
                 }
-                return false;
-
-                return aData.Count == bData.Count && aData.SequenceEqual(bData);
+                return false; 
             }
             if (b.IsComposite)
             {
                 var aDelData = a.Delegate.Data();
-                bool a_in_b = b.GetDelegates().Any(aDelData.Equals);
-                //Console.WriteLine(a_in_b ? "b contains a, so they are interpreted equal by degeneration" : "a is not in b");
+                bool a_in_b = b.GetDelegates().Any(aDelData.Equals); 
                 return a_in_b;
-            }
-            //Console.WriteLine("both a and b are atomic");
+            } 
             return a.Delegate.Data().Equals(b.Delegate);
         }
 
@@ -165,7 +121,7 @@ namespace Anonymous.ServiceModel
 
         public sealed override string ToString()
         {
-            return stringCache ?? (stringCache = IsAtomic ? Delegate.Data().ToString() : "(" + string.Join(",", GetDelegates().Select(DelegateData.Data).Select(x => x.ToString()).OrderBy(x => x)) + ")");
+            return stringCache ?? (stringCache = IsAtomic ? Delegate.Data().ToString() : string.Format("({0})", string.Join(",", GetDelegates().Select(DelegateData.Data).Select(x => x.ToString()).OrderBy(x => x))));
         }
 
         public static bool operator ==(Service service, object obj)
@@ -204,16 +160,7 @@ namespace Anonymous.ServiceModel
         {
             if (other == null) return false;
             var otherData = other.Data();
-            if (this.IsAtomic)
-            {
-                // Console.WriteLine("atomic");
-                var xData = Delegate.Data();
-                //Console.WriteLine("x-data: {0}",xData);
-                //Console.WriteLine("y-data: {0}",otherData);
-                //Console.WriteLine(xData.Equals(other));
-                return xData.Equals(other);
-            }
-            return GetDelegates().Any(otherData.Equals);
+            return this.IsAtomic ? Delegate.Data().Equals(other) : GetDelegates().Any(otherData.Equals);
         }
 
         public static bool operator ==(Service service, Delegate d)
