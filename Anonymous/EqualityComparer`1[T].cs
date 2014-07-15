@@ -1,14 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using Anonymous.ServiceModel;
-
 namespace Anonymous
 {
+    using Anonymous.ServiceModel;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+
     public class EqualityComparer<T> : BipartiteService<Func<T, T, bool>, Func<T, int>>, IEqualityComparer<T>
     {
-        private readonly Func<T, int> getHashCode;
         private readonly Func<T, T, bool> equals;
+
+        private readonly Func<T, int> getHashCode;
 
         public EqualityComparer(Func<T, T, bool> @equals, Func<T, int> getHashCode)
             : base(equals, getHashCode)

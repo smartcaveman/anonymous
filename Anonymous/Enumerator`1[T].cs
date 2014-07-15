@@ -1,10 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Anonymous.ServiceModel;
-
 namespace Anonymous
 {
+    using Anonymous.ServiceModel;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     public class Enumerator<T> : TripartiteService<Func<bool>, Func<T>, Action>, IEnumerator<T>
     {
         public Enumerator(Func<bool> moveNext, Func<T> current, Action reset)
@@ -12,29 +12,35 @@ namespace Anonymous
         {
         }
 
-        public bool MoveNext()
-        {
-            return Delegate();
-        }
-
         public T Current
         {
-            get { return Second.Delegate(); }
+            get
+            {
+                return this.Second.Delegate();
+            }
         }
 
         object IEnumerator.Current
         {
-            get { return Current; }
+            get
+            {
+                return this.Current;
+            }
+        }
+
+        public bool MoveNext()
+        {
+            return this.Delegate();
         }
 
         public void Reset()
         {
-            Third.Delegate();
+            this.Third.Delegate();
         }
 
         public void Dispose()
         {
-            Third.Delegate();
+            this.Third.Delegate();
         }
     }
 }

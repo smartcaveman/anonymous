@@ -1,8 +1,8 @@
-using System;
-using Anonymous.ServiceModel;
-
 namespace Anonymous
 {
+    using Anonymous.ServiceModel;
+    using System;
+
     public class Observer<T> : TripartiteService<Action<T>, Action<Exception>, Action>, IObserver<T>
     {
         public Observer(Action<T> next, Action<Exception> error, Action completed)
@@ -12,17 +12,17 @@ namespace Anonymous
 
         public void OnNext(T value)
         {
-            First.Delegate(value);
+            this.First.Delegate(value);
         }
 
         public void OnError(Exception error)
         {
-            Second.Delegate(error);
+            this.Second.Delegate(error);
         }
 
         public void OnCompleted()
         {
-            Third.Delegate();
+            this.Third.Delegate();
         }
     }
 }

@@ -1,7 +1,7 @@
-using System;
-
 namespace Anonymous.ServiceModel
 {
+    using System;
+
     public class AtomicService<D> : Service<D>, IEquatable<D>
         where D : class
     {
@@ -11,7 +11,9 @@ namespace Anonymous.ServiceModel
         }
 
         protected AtomicService(AtomicService<D> component)
-            : this(() => component) { }
+            : this(() => component)
+        {
+        }
 
         protected AtomicService(Func<AtomicService<D>> component)
             : base(component)

@@ -1,11 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-
 namespace Anonymous
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Linq;
+
     public static class Inline
     {
         public static ICloneable Cloneable(Func<object> clone)
@@ -30,7 +30,7 @@ namespace Anonymous
         {
             comparer = comparer ?? System.Collections.Generic.Comparer<T>.Default;
             return new Comparable<T>(comparand => comparer.Compare(value, comparand));
-        } 
+        }
 
         public static IComparer Comparer(Comparison<object> compare)
         {
@@ -96,16 +96,15 @@ namespace Anonymous
             return new Enumerator<T>(moveNext, current, reset);
         }
 
-        public static IEqualityComparer EqualityComparer(Func<object, object, bool> equals,
-                                                         Func<object, int> getHashCode)
+        public static IEqualityComparer EqualityComparer(
+            Func<object, object, bool> equals, Func<object, int> getHashCode)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(equals, null));
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(getHashCode, null));
             return new EqualityComparer(equals, getHashCode);
         }
 
-        public static IEqualityComparer<T> EqualityComparer<T>(Func<T, T, bool> equals,
-                                                         Func<T, int> getHashCode)
+        public static IEqualityComparer<T> EqualityComparer<T>(Func<T, T, bool> equals, Func<T, int> getHashCode)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(equals, null));
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(getHashCode, null));
@@ -118,11 +117,12 @@ namespace Anonymous
             return new Equatable<T>(equals);
         }
 
-        public static IEquatable<T> Equatable<T>(T value, IEqualityComparer<T> equalityComparer = default(IEqualityComparer<T>))
+        public static IEquatable<T> Equatable<T>(
+            T value, IEqualityComparer<T> equalityComparer = default(IEqualityComparer<T>))
         {
             equalityComparer = equalityComparer ?? System.Collections.Generic.EqualityComparer<T>.Default;
             return new Equatable<T>(candidate => equalityComparer.Equals(value, candidate));
-        } 
+        }
 
         public static IFormatProvider FormatProvider(Func<Type, object> getFormat)
         {
@@ -154,8 +154,8 @@ namespace Anonymous
             return new Formattable(toString);
         }
 
-        public static IGrouping<TKey, TElement> Grouping<TKey, TElement>(Func<IEnumerator<TElement>> getEnumerator,
-                                                                         Func<TKey> key)
+        public static IGrouping<TKey, TElement> Grouping<TKey, TElement>(
+            Func<IEnumerator<TElement>> getEnumerator, Func<TKey> key)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(getEnumerator, null));
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(key, null));
@@ -188,8 +188,8 @@ namespace Anonymous
             return new StructuralComparable(compareTo);
         }
 
-        public static IStructuralEquatable StructuralEquatable(Func<object, IEqualityComparer, bool> equals,
-                                                               Func<IEqualityComparer, int> getHashCode)
+        public static IStructuralEquatable StructuralEquatable(
+            Func<object, IEqualityComparer, bool> equals, Func<IEqualityComparer, int> getHashCode)
         {
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(equals, null));
             Contract.Requires<ArgumentNullException>(!ReferenceEquals(getHashCode, null));

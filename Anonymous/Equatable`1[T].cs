@@ -1,8 +1,8 @@
-using System;
-using Anonymous.ServiceModel;
-
 namespace Anonymous
 {
+    using Anonymous.ServiceModel;
+    using System;
+
     public class Equatable<T> : AtomicService<Predicate<T>>, IEquatable<T>
     {
         public Equatable(Predicate<T> equals)
@@ -12,7 +12,7 @@ namespace Anonymous
 
         public bool Equals(T other)
         {
-            return Delegate(other);
+            return this.Delegate(other);
         }
     }
 }

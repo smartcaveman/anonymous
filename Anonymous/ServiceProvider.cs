@@ -1,8 +1,8 @@
-using System;
-using Anonymous.ServiceModel;
-
 namespace Anonymous
 {
+    using Anonymous.ServiceModel;
+    using System;
+
     public class ServiceProvider : AtomicService<Func<Type, object>>, IServiceProvider
     {
         public ServiceProvider(Func<Type, object> getService)
@@ -12,7 +12,7 @@ namespace Anonymous
 
         public object GetService(Type serviceType)
         {
-            return Delegate(serviceType);
+            return this.Delegate(serviceType);
         }
     }
 }

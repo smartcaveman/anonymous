@@ -1,10 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Anonymous.Infrastructure;
-
 namespace Anonymous
 {
+    using Anonymous.Infrastructure;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     public class Enumerable : Enumerable<object>
     {
         public Enumerable(Func<IEnumerator> getEnumerator)

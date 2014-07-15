@@ -1,10 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Anonymous.ServiceModel;
-
 namespace Anonymous
 {
+    using Anonymous.ServiceModel;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     public class Enumerable<T> : AtomicService<Func<IEnumerator<T>>>, IEnumerable<T>
     {
         public Enumerable(Func<IEnumerator<T>> getEnumerator)
@@ -14,12 +14,12 @@ namespace Anonymous
 
         public IEnumerator<T> GetEnumerator()
         {
-            return Delegate.Invoke();
+            return this.Delegate.Invoke();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return Delegate.Invoke();
+            return this.Delegate.Invoke();
         }
     }
 }

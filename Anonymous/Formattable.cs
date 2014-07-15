@@ -1,8 +1,8 @@
-using System;
-using Anonymous.ServiceModel;
-
 namespace Anonymous
 {
+    using Anonymous.ServiceModel;
+    using System;
+
     public class Formattable : AtomicService<Func<string, IFormatProvider, string>>, IFormattable
     {
         public Formattable(Func<string> toString)
@@ -27,7 +27,7 @@ namespace Anonymous
 
         public string ToString(string format = null, IFormatProvider formatProvider = null)
         {
-            return Delegate(format, formatProvider);
+            return this.Delegate(format, formatProvider);
         }
 
         protected internal override string GetStringRepresentation()

@@ -1,8 +1,8 @@
-using System;
-using Anonymous.ServiceModel;
-
 namespace Anonymous
 {
+    using Anonymous.ServiceModel;
+    using System;
+
     public class Cloneable : AtomicService<Func<object>>, ICloneable
     {
         public Cloneable(Func<object> clone)
@@ -12,7 +12,7 @@ namespace Anonymous
 
         public object Clone()
         {
-            return Delegate();
+            return this.Delegate();
         }
     }
 }

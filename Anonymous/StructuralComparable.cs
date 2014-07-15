@@ -1,9 +1,9 @@
-using System;
-using System.Collections;
-using Anonymous.ServiceModel;
-
 namespace Anonymous
 {
+    using Anonymous.ServiceModel;
+    using System;
+    using System.Collections;
+
     public class StructuralComparable : AtomicService<Func<object, IComparer, int>>, IStructuralComparable
     {
         public StructuralComparable(AtomicService<Func<object, IComparer, int>> compareTo)
@@ -13,7 +13,7 @@ namespace Anonymous
 
         public int CompareTo(object other, IComparer comparer)
         {
-            return Delegate.Invoke(other, comparer);
+            return this.Delegate.Invoke(other, comparer);
         }
     }
 }

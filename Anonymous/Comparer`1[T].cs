@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using Anonymous.ServiceModel;
-
 namespace Anonymous
 {
+    using Anonymous.ServiceModel;
+    using System;
+    using System.Collections.Generic;
+
     public class Comparer<T> : AtomicService<Comparison<T>>, IComparer<T>
     {
         public Comparer(Comparison<T> compare)
@@ -13,7 +13,7 @@ namespace Anonymous
 
         public int Compare(T x, T y)
         {
-            return Delegate.Invoke(x, y);
+            return this.Delegate.Invoke(x, y);
         }
 
         public static implicit operator Comparer<T>(Comparison<T> comparison)
@@ -23,9 +23,7 @@ namespace Anonymous
 
         public static implicit operator Comparer<T>(Func<T, T, int> comparison)
         {
-            return comparison == null
-                       ? null
-                       : new Comparer<T>(comparison.Invoke);
+            return comparison == null ? null : new Comparer<T>(comparison.Invoke);
         }
 
         public static implicit operator Func<T, T, int>(Comparer<T> comparer)

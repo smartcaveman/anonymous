@@ -1,8 +1,8 @@
-using System;
-using Anonymous.ServiceModel;
-
 namespace Anonymous
 {
+    using Anonymous.ServiceModel;
+    using System;
+
     public class FormatProvider : AtomicService<Func<Type, object>>, IFormatProvider
     {
         public FormatProvider(Func<Type, object> getFormat)
@@ -12,7 +12,7 @@ namespace Anonymous
 
         public object GetFormat(Type formatType)
         {
-            return Delegate(formatType);
+            return this.Delegate(formatType);
         }
     }
 }
